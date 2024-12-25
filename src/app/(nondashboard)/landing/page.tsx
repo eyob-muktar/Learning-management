@@ -5,8 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCarousel } from '../../../hooks/use-carousel';
 import { Skeleton } from '../../../components/ui/skeleton';
+import { useGetCoursesQuery } from '../../../state/api';
+import CourseCardSearch from '../../../components/CourseCardSearch';
+import { useRouter } from 'next/navigation';
 
-const LoadingSkeleton = () => {
+const LoadingSkeleton = () => (
   <div className='landing-skeleton'>
     <div className='landing-skeleton__hero'>
       <div className='landing-skeleton__hero-content'>
@@ -37,12 +40,22 @@ const LoadingSkeleton = () => {
         ))}
       </div>
     </div>
-  </div>;
-};
+  </div>
+);
 
 const Landing = () => {
+  const router = useRouter();
   const currentImage = useCarousel({ totalImages: 3 });
+  const { data: courses, isLoading, isError } = useGetCoursesQuery({});
+  console.log({ courses, isLoading, isError });
 
+  const handleCourseClick = (courseId: string) => {
+    router.push(`/search?id=${courseId}`);
+    console.log(`Course clicked: ${courseId}`);
+  };
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -122,7 +135,23 @@ const Landing = () => {
             </span>
           ))}
         </div>
-        <div className='landing__courses'></div>
+        <div className='landing__courses'>
+          {courses &&
+            courses.slice(0, 4).map((course, index) => (
+              <motion.div
+                key={course.courseId}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                viewport={{ amount: 0.4 }}
+              >
+                <CourseCardSearch
+                  course={course}
+                  onClick={() => handleCourseClick(course.courseId)}
+                />
+              </motion.div>
+            ))}
+        </div>
       </motion.div>
     </motion.div>
   );

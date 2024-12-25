@@ -1,6 +1,6 @@
 import Footer from '../components/Footer';
 import NonDashboardNavbar from '../components/NonDashboardNavbar';
-import Landing from './{nondashboard}/landing/page';
+import Landing from './(nondashboard)/landing/page';
 
 export default function Home() {
   return (
