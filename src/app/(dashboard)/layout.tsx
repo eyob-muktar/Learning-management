@@ -7,6 +7,7 @@ import { cn } from '../../lib/utils';
 import { SidebarProvider } from '../../components/ui/sidebar';
 import AppSidebar from '../../components/AppSidebar';
 import { useUser } from '@clerk/nextjs';
+import Navbar from '../../components/Navbar';
 
 export default function DashboardLayout({
   children,
@@ -30,6 +31,7 @@ export default function DashboardLayout({
             className={cn('dashboard__main')}
             style={{ height: '100vh' }}
           >
+            <Navbar isCoursePage={true} />
             <main className='dashboard__body'>{children}</main>
           </div>
         </div>
