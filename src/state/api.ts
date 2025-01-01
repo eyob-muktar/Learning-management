@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BaseQueryApi, FetchArgs } from '@reduxjs/toolkit/query';
 import { User } from '@clerk/nextjs/server';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Clerk } from '@clerk/clerk-js';
 import { toast } from 'sonner';
 
@@ -152,7 +153,7 @@ export const api = createApi({
     =============== 
     */
     getTransactions: build.query<Transaction[], string>({
-      query: (userId) => `transactions?userId=${userId}`,
+      query: () => `transactions?userId=`,
     }),
     createStripePaymentIntent: build.mutation<
       { clientSecret: string },
